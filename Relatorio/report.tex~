@@ -1,0 +1,1709 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{a4wide}
+\usepackage[portuges]{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{morefloats}
+
+
+
+\begin{document}
+
+\begin{titlepage}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.6]{images/1}
+
+\end{figure}
+\onehalfspacing
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\center % Center everything on the page
+ 
+%----------------------------------------------------------------------------------------
+%    HEADING SECTIONS
+%----------------------------------------------------------------------------------------
+
+\textsc{\LARGE Universidade do Minho}\\[1.5cm] % Name of your university/college
+\textsc{\Large Licenciatura em Engenharia Informática}\\[0.5cm] % Major heading such as course name
+\textsc{\large Desenvolvimento de Sistemas de Software}\\[0.5cm] % Minor heading such as course title
+
+%----------------------------------------------------------------------------------------
+%    TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\HRule \\[0.4cm]
+{ \Large \bfseries EyeBuy \\ Sistema	de		comércio	electrónico}\\[0.4cm] % Title of your document
+\HRule \\[1.5cm]
+ 
+%----------------------------------------------------------------------------------------
+%    AUTHOR SECTION
+%----------------------------------------------------------------------------------------
+
+\Large \emph{Grupo 20:}\\
+\textsc{André Santos nº60994 \\ Daniel Araújo nº61058 \\ Daniel Carvalho nº61008 \\ Helena Alves nº61000 \\ Pedro Nunes nº54726}\\[3cm] % Your name
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{images/essesdeuses}
+
+\end{figure}
+
+%----------------------------------------------------------------------------------------
+%    DATE SECTION
+%----------------------------------------------------------------------------------------
+
+{\large \today}\\[3cm] % Date, change the \today to a set date if you want to be precise
+
+%----------------------------------------------------------------------------------------
+%    LOGO SECTION
+%----------------------------------------------------------------------------------------
+
+%\includegraphics[scale=0.7]{images/escola_eng.png}\\[1cm] % Include a department/university logo - this will require the graphicx package
+ 
+%----------------------------------------------------------------------------------------
+
+\vfill % Fill the rest of the page with whitespace
+
+\end{titlepage}
+\thispagestyle{empty}
+\newpage
+\onehalfspacing
+\tableofcontents
+\listoffigures
+
+\newpage
+\onehalfspacing
+
+
+
+
+\section{Introdução}
+Neste relatório é descrito o processo de análise, modelação e concepção de um sistema e-Commerce que permite aos utilizadores comprarem e venderem produtos. Este sistema permite aos utilizadores comprar e vender produtos, criar leilões e fazer licitações, funcionamento de suporte a sugestões de compra e troca de produtos, criação de montras de produtos, produtos desejados e produtos seguidos entre outras funcionalidades inerentes a este tipo de sistema. Nos capítulos presentes neste documento é feita uma análise de requisitos suportada pelo modelo de dominio do sistema, casos de uso e respectivos detalhes e diagramas de sequência, tudo isto de forma a enquadrar e descrever da forma mais detalhada possível o sistema a ser desenvolvido. Para além disso é também mostrada uma análise da concorrência onde são retratados os sitemas do mesmo tipo assim como os seus pontos fortes e pontos fracos de forma a ser feita uma melhor implementação possivel do sistema tendo em conta o que já existe no mercado.
+Por fim, são expostos os desenhos e planificações das interfaces e da sua co-relação com as funcionalidades a serem implementadas no sistema.
+
+\newpage
+
+\section{Sistema EyeBuy}
+       O eyeBuy é um sistema de e-commerce que proporciona aos seus utilizadores a possibilidade de venda e compra de produtos.
+       Um utilizador registado no sistema pode assumir diferentes papéis no sistema. Para o papel de utilizador normal são garantidas as opções de compra, licitação ou troca de produtos e gestão do carrinho de compras, manutenção do seu perfil, criação de listas de produtos desejados e produtos seguidos, interagir com outros utilizadores através de mensagens e fazer uma avaliação relativa a uma compra efetuada assim como reportar situações de compra à administração. Para o papel de utilizador avançado são garantidas todas as operações de um utilizador normal e ainda garantidas as opções de venda de produtos e aceitação de propostas e manutenção de uma montra de produtos à venda. Por fim o papel de administrador do sistema permite a gestão dos utilizadores do sistema, gestão dos produtos, criar alertas para todos os utilizadores, gerir as categorias gerais em que os produtos podem ser inseridos, gestão das newsletters relativas a produtos, consulta de estatísticas gerais do sistema e gestão de restrições 
+dentro do sistema para os utilizadores. 
+       Em termos genéricos o funcionamento deste sistema permite a um utilizador avançado criar um anúncio de venda de um produto onde constam o nome do produto, preço, descrição, fotografias, métodos de venda (venda direta, licitação ou troca), métodos de pagamentos, método de envio e categoria e ser permitido a utilizadores normais comprarem/licitarem esse produto enviando-o para o seu carrinho de compras e pagando posteriormente. No fim da transação é possível também atribuir um feedback entre vendedor e comprador de forma a avaliar o nível de confiança no vendedor e no seu produto e a facilidade de transação com o comprador de forma a ser possível através dessa avaliação indicar se um vendedor ou comprador é confiável ou não. Como suporte aos utilizadores é também possível reportar uma situação numa transação ao administrador do sistema caso não tenha sido possível na interação vendedor-comprador. 
+       O carrinho de compras torna possível a adição de vários produtos para compra, assim como a remoção caso se desista da compra, de forma a ser possível fazer um pagamento único para todos os artigos facilitando assim as transações na compra de produtos.
+       De forma a assegurar um alto grau de interação e acessibilidade do sistema é possível também criar listas de produtos desejados tendo em vista garantir ao utilizador guardar produtos nos quais esteja interessado comprar futuramente (caso existam ou não para venda no sistema) e criar listas de produtos seguidos que torna possível um utilizador seguir o percurso de licitação de um produto até o leilão atingir o seu término.
+	A montra de produtos é outra ferramenta acessível para utilizadores avançados que permite a organização e uma melhor visibilidade de todos os produtos que esse utilizador colocou à venda de forma a assegurar a vendedores mais activos um espaço no formato loja online dentro do sistema de forma a facilitar as transações de produtos similares no mesmo vendedor.  
+
+\newpage
+
+\section{Estudo de Concorrência}
+
+\subsection{Ebay}
+
+O Ebay é um site de comércio online, onde é possível negociar inúmeros produtos, desde pequenas coisas até grandes investimentos. É o site líder em vendas a nível mundial, tendo sido o pioneiro neste tipo de negócios. Em termos de oferta, esta é muita variada desde artigos novos a usados, sendo os utilizadores pertencentes a pequenas e médias empresas e de nível individual.  
+
+É centro comercial (de compra e venda) mais popular, abrangente e bem-sucedido do mundo online. Está presente em 37 países e é grande para toda a gente. Actualmente, existe um vendedor para cada 78 compradores.
+
+O modelo de negócio do eBay permite que empresas de pequena e média dimensão e pessoas a título individual (que gerem pequenos negócios a partir de casa) exerçam com êxito a sua actividade, assim como, auxilia muitos lojistas do comércio tradicional (lojas de rua), a escoarem os seus produtos através da exportação, cobrindo deste modo um mercado bem mais abrangente.
+
+O Ebay permite várias formas de vendas e leilões tratando também dos detalhes de transacção de produtos entre os utilizadores, garantindo assim o sistema mais seguro e eficaz de todos do género. Para além disso o ebay é altamente organizado e extremamente rico em funcionalidades disponiveis para o utilizador. O ebay oferece funcionalidades como carrinho de compras, lista de produtos seguidos, seguimento de leilões, possibilidade de criação de uma montra para vendedores em forma de loja online, possibilidade de reportar produtos e contactar outros utilizadores, sistema de reolução de problemas que permite aos compradores remeterem um problema para ser resolvido entre o próprio ebay e os vendedores entre muitas outras funcionalidades que asseguram a fiabilidade e segurança do sistema.
+
+
+
+\subsection{Olx}
+
+O olx é um site de anúncios que permite aos seus utilizadores criar anúnicos de venda e compra de produtos assim como anúncios mais gerais que vai desde o aluguer de imóveis a serviços prestados e desde automóveis a procura e oferta de emprego. O olx oferece a funcionalidade de criar anúnicos, responder a anunciantes, comentar anúncios, mas todo o processo de negociação e transacção é levado a cabo por parte dos utilizadores do site, tornando-o uma plataforma de anúncios simples, eficaz e com um propósito especifico.
+
+
+
+\subsection{Miau}
+
+O miau é um site de classificados que permite aos seus utilizadores comprarem e venderem produtos atravé de venda directa e lelilões para além de ser possível colocar perguntas aos anunciantes na própria página do produto à vista de todos. Um dos pontos fortes do miau é a sua política de segunrança e a forma com que verifica os utilizadores através de verificação da sua morada de forma a prevenir fraudes e outros esquemas ilegais. 
+
+
+\subsection{Conclusão do estudo de concorrência}
+Após uma intensa análise às funcionalidades e funcionamento dos sistemas concorrentes foi possível determinar os seus pontos fortes de forma a implementá-los neste sistema assim como os seus pontos fracos de forma a evitá-los na nossa implementação. Algumas das funcionalidades fortes nesses sitemas passam por permitir a criação de produtos desejados assim como a possibilidade de seguir produtos em leilão, a criação de montras de produtos à venda pelo mesmo utilizador de forma a possibilitar uma interacção com vendedores mais avançaodos de forma a asssemelhar-se com uma loja online, um sistema de feedbacks que permite a avalição de compradores e vendedores mediante transações passadas garantido assim uma forma qualitativa do grau de confiança dos utilizadores, reportar produtos e problemas em anúncios, entre outras funcionalidades.
+
+\newpage
+
+\section{Camada ORM}
+
+Uma vez que o desenvolvimento deste projeto ocorreu em paralelo com o projecto pedido na Unidade Curricular de Bases de Dados foram feitas algumas escolhas no sentido de permitir que fossem apresentados produtos funcionais nomeadamente um programa cliente - em Java, para a UC de DSS - e uma aplicação para correr no browser para administrar o sistema - um site que basicamente administra a base de dados de utilizadores.
+A nota anterior é pertinente porque permite explicar alguma decisões, relacionadas com o desenvolvimento da aplicação, especialmente da camada ORM.
+Para desenvolver a camada ORM, e uma vez que o sistema tinha sido modelado basicamente (modelo de domínio, diagramas de usecase, diagramas de sequência) aquando da entrega da primeira etapa, a escolha reincidiu em derivar as tabelas da base de dados a partir dos objectos presentes no diagrama de classes original.
+Após isso foram criados objectos DAO (Data Access Objects), um para cada objecto usado na aplicação. Estes objectos servem para abstrair a camada de persistência, devendo, por isso, conter métodos que permitam a interacção com o Base de Dados.
+Na realidade, devido à circunstância referida no início desta secção, os métodos contidos nas classes permitem fazer muito mais que as operações de CRUD (create, remove, update, delete) de um objecto. São disponibilizadas na Base de Dados  procedimentos que permitem executar conjuntos de operações que dizem respeito a uma acção bem definida no sistema (por exemplo comprar tudo o que se encontra no carrinho); isto permite garantir atomicidade embora ponha parte da camada de negócios na base de dados.
+
+
+\section{Decisões relevantes nas listagens de produtos}
+
+Na página inicial optamos por mostrar ao utilizador uma lista de produtos que lhe podem interessar, essa lista é constituída por todos os produtos que o utilizador pode comprar ordenados por aqueles que achamos que podem ter mais interesse para ele.
+O critério de ordenação que utilizamos foi as pesquisas com mais frequência que esse mesmo utilizador faz, ou melhor, irão ser mostrados em primeiro lugar os produtos que têm um maior numero de coincidências com as palavras mais pesquisadas do utilizador.
+Isto acrescenta valor ao sistema porque aumenta a probabilidade de haver mais negócios realizados.
+O mesmo acontece com a lista de produtos relacionados mostrada quando abrimos cada produto que procura, é mostrado ao utulizador uma lista de todos os produtos ordenados pelas coincidências com o nome do produto que ele está a ver.
+Quando o utilizador abre um produto também lhe é mostrado uma lista de possiveis trocas que pode propor ao vendedor. Essa lista de trocas contém todas as possiveis relações de troca entre aquele produto que está a visitar e a sua montra de produtos.
+
+\section{Implementação do Modelo das Três camadas (Interface, Camada de Negócio, Camada de Persistência)}
+
+Devido ao facto de aquando do início do trabalho ainda não termos perfeita noção da forma de implementar o modelo das três camadas, começamos a criação da aplicação usando  uma abordagem que não terá sido a melhor.
+De facto, em grande parte da aplicação são chamados métodos das classes DAO que contém parte do modelo de negócio.
+Entretanto, obtivemos conhecimento e consciência da importância e de quanto seria simplificada a divisão de trabalhos entre os elementos do grupo caso fosse implementado.
+Como a pressão do tempo não permitiu uma alteração para este modelo, decidimos mostrar que conseguíamos implementar (visto que na modelação já estava previsto) alguma parte do projecto com o modelo das 3 camadas.
+Assim em anexo vão as classes que contem a parte do sistema que lida com as mensagens.
+Aqui os métodos das classes do Modelo (Utilizador e Mensagem), são chamados na GUI. Por sua vez nas classes do modelo são chamados métodos que fazem a ligação à base de dados contidos nas classes DAO (UtilizadorDAO e MensagensDAO).
+
+\section{Interface: Experiência de utilização} 
+
+Tentamos desde o inicio construir uma interface que oferecesse ao utiliuzador uma boa expêriencia de utilização. Para isso tomamos as seguintes decisões:
+
+
+Imagens:
+Decidimos listar os produtos no nosso sistema com imagens de tamanho médio, para promover o interesse do utilizador e incentivar a que este abra o produto. As imagens são mais informativas em relação ao produto em questão e tornam também a procura e navegação menos cansativa e mais agradável.
+
+Botões: 
+\begin{itemize}
+\item Icones:
+No nosso sistema a maior parte dos botões limitam-se a ícones, esta decisão tem como objectivo obter uma interface mais limpa, apresentando assim em alternativa a botões de texto que são por si mais espaçosos, pequenos botões intuitivos a cada acção.
+
+\item Sugestão:
+Tentamos em todos os botões colocar ícones sugestivos da acção, no entanto para facilitar ainda mais a acção do utilizador, nos botões que  pudessem suscitar mais duvidas colocamos uma pequena sugestão que aparece quando colocado o rato por cima do botão, esta sugestão mostra explicitamente a acção do botão.
+
+\item Botões de navegação
+Em todas as navegações entre listas foram colocados 3 botões de navegação que facilitam essa mesma navegação, o botão próximo, o anterior e o actualizar. De notar que foram tidos cuidados para que esses mesmos botões fosses coerentes e por tanto em listagens de texto como de imagens utilizamos o mesmo sistema.
+
+\end{itemize}
+Agregação de elementos relacionados:
+Tivemos o cuidado na construção das nossas interfaces de agrupar por elementos relacionados, para permitir que quando o utilizador executa determinada acção possa encontrar acções relacionadas na mesma interface e por isso muitas vezes evitar mudar de janela. 
+Podemos assim encontrar as mensagens no perfil do utilizador, um histórico de ultimas vendas quando o utilizador visita a sua página de vendas, as listas de produtos seguidos e relacionados na página inicial e por isso a página onde normalmente o utilizador vê produtos.
+
+Take a Tour:
+No sistema disponibilizamos também ao utilizador um video que demonstra todo o funcionamento do sistema. Com este video pretendemos mostrar ao utilizador todas as funcionalidades do programa, incentivar a uma utilização completa e incentivar ao registo.
+
+Link video: https://dl.dropbox.com/u/1015358/takeatour.avi
+
+\section{Segurança}
+
+No sentido de criar um produto que mesmo sendo implementado num âmbito académico estivesse minimamente preparado para o mundo real, foram tidos alguns cuidados no sentido de garantir a segurança e estabilidade tanto da aplicação como dos seus utilizadores.
+O uso de um sistema de login torna-se fundamental neste tipo de aplicação, pois é necessária a obtenção da identidade de cada um dos utilizadores para o conceito da aplicação poder funcionar. Tendo em conta que esta aplicação funciona num regime fechado, ou seja, é necessário o registo e login para ser possível o acesso às funcionalidades da aplicação o que torna necessário alguns cuidados na sua implementação. Um desses cuidados foi na encriptação da password na base de dados através do algoritmo MD5 que torna possível a encriptação no sentido texto -> password mas não o processo contrário, garantido assim um acréscimo à segurança da aplicação e dos seus utilizadores para além de que a verificação do login é feito na base de dados, ou seja não há tráfego no sentido da base de dados para a aplicação, nem tarefas de autenticação feitas directamente na aplicação.
+Outra funcionalidade é descrita pela interacção dos utilizadores com a administração do sistema no sentido de resolver problemas entre utilizadores onde a interacção utilizador-utilizador falhou. Assim sendo é possível notificar a administração de forma a obter resolução de problemas.
+Apesar de ter sido tomada em consideração a possibilidade de falhas de segurança através de injecções de SQL nos campos de inserção de dados na aplicação por parte dos utilizadores tornou-se também evidente que seria um incómodo reduzir o leque de caracteres a utilizar pelos utilizadores como plicas e barras (método de protecção contra sql injections através da remoção de alguns caracteres da sintaxe da linguagem) pelo que assim se ignorou este problemas visto não ser um ponto muito relevante para o projecto.
+
+\section{MVC (Model-View-Controller)}
+
+O modelo MVC é o standard para o desenvolvimento de GUI (Interfaces gráficas) para aplicações, sendo a maior vantagem o modo como separa a camada de negócio da parte das interfaces.
+Neste modelo as classes View contém além dos métodos de inicialização das janelas, métodos que, ao receber como parâmetro objectos com informação permite que esta seja mostrada na interface (updates à view). 
+As classes Controller contêm métodos que são executados ao receber uma acção na interface chamam métodos (na maior parte contidos nas classes do Modelo) que calculam a resposta à interacção do utilizador, seguidamente dos métodos da View que fazem update da informação à vista do utilizador.
+Neste projecto era pertinente implementar este modelo. Na nossa aplicação o modelo está completamente isolado das outras classes. Dentro das classes da view estão contidos os métodos de inicialização e os de update. A única falha foi o facto das classes do Controller não estarem em classe separadas apesar de estarem isoladas do código da view. Assim as acções de resposta estão em Anonymous Inner Classes que estão à vista. Esta situação acabou por não ser grande entrave ao desenvolvimento uma vez que pelo facto de a interface estar a ser editada em modo gráfico e ,ao clicar num elemento a ser editado a classe que contem o método que gere a resposta ficar logo visivel ao programador.
+
+\newpage
+\section{Modelo de Domínio}
+	O modelo de domínio é um esquema que captura todas as entidades do sistema e todos os relacionamentos entre estas. Neste trabalho, foi desenvolvido um sistema de comércio electrónico, tendo como duas entidades principais, o administrador e o utilizador do sistema. Existem dois tipos de utilizador: normal e avançado. O utilizador avançado pode realizar tudo que o utilizador normal realiza, mas pelo contrário, apenas o utilizador avançado pode gerir as vendas e o carrinho de compras. Deste modo, o utilizador avançado é designado como vendedor e o utilizador normal como comprador. O administrador é a entidade que gere a grande parte da informação do sistema:\\
+\begin{itemize}
+\item É o responável pelo controlo dos registos dos clientes no sistema;
+\item É ele que administra a lista dos produtos e a lista de utilizadores;
+\item É o responsável por gerir grande parte das utilidades do sistema.
+\end{itemize}
+
+
+
+Na página seginte á apresentado o modelo de domínio correspondente ao nosso sistema.
+\newpage
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.4]{images2/modelodominio.jpg}
+\caption{Modelo de Domínio}
+\end{figure}
+
+\clearpage 
+\newpage
+
+\section{Diagrama de Use Cases}
+Um diagrama de use cases é um diagrama onde são representados todos os actores envolventes de um dado sistema, assim como todas as acções que estes podem executar. O diagrama de use cases referente ao nosso sistema é, de seguida, apresentado:\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{images2/usecasegeral.jpg}
+\caption{Diagrama de Use Cases}
+\end{figure}
+
+Neste diagrama estão representados todos os sub-sistemas do sistema EyeBay, incluindo todos os actores e suas acções. Para promover uma  melhor compreensão, vão ser apresentados cada um destes sub-sistemas individualmente, juntamente com as especificações textuais de cada use case corresponde ao respecivo sub-sistema. \\
+
+\clearpage 
+\newpage
+\subsection{Sub-sistema Acesso ao sistema}
+Neste subsistema é possível os utilizadores efectuarem o seu registo no sistema. Contudo, tanto utilizadores como administrador podem efectuar o login no sistema e, quando necessitarem de sair do sitema, efectuar o respectivo logout.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images2/login.jpg}
+\caption{Diagrama de Use Cases do sub-sistema Acesso ao sistema}
+\end{figure}
+
+
+De seguida, encontram-se as especificações textuais dos use cases do diagrama deste sub-sistema:\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_logout.png}
+\caption{Detalhes use case logout}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_login.png}
+\caption{Detalhes use case login}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_registo.png}
+\caption{Detalhes use case Efectuar registo}
+\end{figure}
+
+
+\clearpage 
+\newpage
+\subsection{Sub-sistema Gestão produtos desejados}   
+No diagrama use case deste sub-sistema está representado o actor utilizador. Este tem como actividade gerir produtos desejados, onde pode adicionar e remover produtos desejados e consultar a respectiva lista de produtos.\\
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images2/gestaoproddesejados.jpg}
+\caption{Diagrama Use Case sub-sistema Gestão produtos desejados}
+\end{figure}
+
+
+De seguida, encontram-se as especificações textuais dos use cases do diagrama deste sub-sistema:\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_proddesejados.png}
+\caption{Detalhes use case Adicinar produto desejado}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_removedesejados.png}
+\caption{Detalhes use case Remover produto desejado}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_consultadesejados.png}
+\caption{Detalhes use case Consultar produtos desejados}
+\end{figure}
+
+\clearpage 
+\newpage
+\subsection{Sub-sistema Gestão produtos seguidos}
+No diagrama use case deste sistema estão envolvidas todas as acções que os utilizadores podem efectuar em relação aos produtos que pretendem seguir, como adicionar e remover um produto e consultar a respectiva lista de produtos seguidos. Estas acções só podem ser executadas pelo utilizador.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images2/gestaoprodseguidos.jpg}
+\caption{Diagrama Use Case sub-sistema Gestão produtos seguidos}
+\end{figure}
+
+De seguida, encontram-se as especificações textuais dos use cases do diagrama deste sub-sistema:\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_seguirproduto.png}
+\caption{Detalhes use case Seguir produto}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_deixardeseguir.png}
+\caption{Detalhes use case Deixar de seguir produto}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_consultarseguidos.png}
+\caption{Detalhes use case Consultar produtos seguidos}
+\end{figure}
+\clearpage 
+\newpage
+\subsection{Sub-sistema de Definições pessoais do utilizador}
+Este sub-sistema permite ao utilizador, a qualquer momento, alterar as suas definições pessoais.\\
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images2/actualizardef.jpg}
+\caption{Diagrama Use Case sub-sistema Actualizar definições pessoais}
+\end{figure}
+
+De seguida, encontra-se a especificação textual do único use case do diagrama deste sub-sistema:\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_definicoes.png}
+\caption{Detalhes use case Actualizar definições pessoais}
+\end{figure}
+
+\clearpage 
+\newpage
+\subsection{Sub-sistema Gestão de mensagens do utilizador}
+No diagrama de use case deste sub-sistema estão representadas todas as acções relativas à gestão de mensagens. É permitido aos dois tipos de utilizadores, utilizador e utilizador banido, escrever e apagar mensagens e consultar a sua respectiva caixa de mensagens.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images2/gestaomensagens.jpg}
+\caption{Diagrama Use Case sub-sistema Gerir mensagens}
+\end{figure}
+
+De seguida, encontram-se as especificações textuais dos use cases do diagrama deste sub-sistema:\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_mensagemut.png}
+\caption{Detalhes use case Nova mensagem}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_apagarmensagem.png}
+\caption{Detalhes use case Apagar mensagem}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_consultarmensagem.png}
+\caption{Detalhes use case Consultar mensagens}
+\end{figure}
+\clearpage 
+\newpage
+
+
+\subsection{Sub-sistema Gestão de compras}
+É neste sub-sistema que os utilizadores podem controlar as suas compras. Sempre que quiserem efectuar uma proposta de compra, esta pode ser efectuada por três métodos: troca, licitação e compra directa. Contudo, apenas certos produtos podem ser comprados por certos métodos de venda. O pagamento de cada produto pode ser feito por PayPal ou MBNet. É também possível, após ter efectuado uma proposta e o respectivo pagamento, classificar o vendedor e reportar a venda, caso o utilizador não fique satisfeito. Neste sub-sistema também está representada a acção de consultar o perfil de outros utilizadores.  \\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{images2/gestaocompras.jpg}
+\caption{Diagrama Use Case sub-sistema Gerir compras}
+\end{figure}
+
+De seguida, encontram-se as especificações textuais dos use cases do diagrama deste sub-sistema:\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_efectuarproposta.png}
+\caption{Detalhes use case Efectuar proposta}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_licitacao.png}
+\caption{Detalhes use case de licitação}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_troca.png}
+\caption{Detalhes use case de troca}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_compradirecta.png}
+\caption{Detalhes use case de compra directa}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{images2/def_reportarvenda.png}
+\caption{Detalhes use case Reportar venda}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_efectuarpagamento.png}
+\caption{Detalhes use case Efectuar pagamento}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_paypal.png}
+\caption{Detalhes use case pagamento Paypal}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_mbnet.png}
+\caption{Detalhes use case MBnet}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_classificarvendedor.png}
+\caption{Detalhes use case Classificar vendedor}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_cosultarerfil.png}
+\caption{Detalhes use case Consultar perfil de utilizadores}
+\end{figure}
+
+
+\clearpage
+\newpage
+
+\subsection{Sub-sistema Lista de produtos}
+Neste sub-sistema é permitido aos utilizadores consultarem, a qualquer momento, a lista de todos os produtos à venda.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images2/consultarprod.jpg}
+\caption{Diagrama Use Case sub-sistema Consultar lista de produtos}
+\end{figure}
+
+De seguida, encontra-se a especificação textual do único use case do diagrama deste sub-sistema:\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_consultarlista.png}
+\caption{Detalhes use case Consultar lista de produtos}
+\end{figure}
+
+
+\clearpage 
+\newpage
+
+\subsection{Sub-sistema Gestão do carrinho de compras}
+No diagrama use case deste sub-sistema estão representadas acções relativas à gestão do carrinho de compras do utilizador, podendo este remover um produto do carrinho e também consultar o seu próprio carrinho.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images2/gestaocarrinho.jpg}
+\caption{Diagrama Use Case sub-sistema Gerir carrinho de compras}
+\end{figure}
+
+De seguida, encontram-se as especificações textuais dos use cases do diagrama deste sub-sistema:\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_removecarrinho.png}
+\caption{Detalhes use case Remover produto carrinho}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_consultarcarrinho.png}
+\caption{Detalhes use case Consultar carrinho de compras}
+\end{figure}
+
+
+\clearpage
+\newpage
+
+\subsection{Sub-sistema Gestão de vendas}
+No diagrama use case deste sistema estão representadas acções relativas apenas ao utilizador. Estas acções permitem ao utilizador gerir as suas vendas, colocando produtos à venda e consultando propostas, podendo estas ser ou não aceites. Após ter aceitado uma proposta, o utilizador pode classificar o comprador e reportar a compra, caso não esteje satisfeito com alguma situação.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images2/gestaovendas.jpg}
+\caption{Diagrama Use Case sub-sistema Gerir vendas}
+\end{figure}
+
+De seguida, encontram-se as especificações textuais dos use cases do diagrama deste sub-sistema:\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_colocarvenda.png}
+\caption{Detalhes use case Colocar produto à venda}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_consultarproposta.png}
+\caption{Detalhes use case Consultar proposta}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images2/def_reportarcompra.png}
+\caption{Detalhes use case Reportar compra}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images2/def_classificarcompr.png}
+\caption{Detalhes use case Classificar comprador}
+\end{figure}
+
+
+\clearpage
+\newpage
+\subsection{Sub-sistema Gestão da montra de produtos}
+No diagrama use case deste sistema estão representadas, mais uma vez, acções relativas apenas ao utilizador. Estas acções permitem ao utilizador gerir a sua montra de produtos, podendo consultar a sua montra, a qualquer momento. O utilizador também é capaz de actualizar os seus produtos e criar descontos sobre eles.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images2/gestaomontra.jpg}
+\caption{Diagrama Use Case sub-sistema Gerir montra de produtos}
+\end{figure}
+
+De seguida, encontram-se as especificações textuais dos use cases do diagrama deste sub-sistema:\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_consultarmontra.png}
+\caption{Detalhes use case Consultar montra de produtos}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_deixavender.png}
+\caption{Detalhes use case Deixar de vender um produto}
+\end{figure}
+
+\clearpage 
+\newpage
+
+
+\subsection{Sub-sistema de operações de suporte}
+No diagrama de use case deste sistema estão representadas operações como obter ajuda e informações sobre o sistema. Estas operações são relativas apenas a utilizadores.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images2/gestaooutrasoper}
+\caption{Diagrama Use Case sub-sistema Operações de suporte}
+\end{figure}
+
+De seguida, encontram-se as especificações textuais dos use cases do diagrama deste sub-sistema:\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_ajuda}
+\caption{Detalhes use case Ajuda}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_acercade}
+\caption{Detalhes use case Acerca de}
+\end{figure}
+
+\clearpage 
+\newpage
+
+\subsection{Sub-sistema Gestão de utilizadores}
+Este sub-sistema apenas envolve um actor, nomeadamente o administrador. O diagrama use case deste subsistema é relativo à gestão de utilizadores, onde o administrador pode remover e editar utilizadores.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images2/gestaoutilizadores.jpg}
+\caption{Diagrama Use Case sub-sistema Gerir utilizadores}
+\end{figure}
+
+
+De seguida, encontram-se as especificações textuais dos use cases do diagrama deste sub-sistema:\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_removeutilizador.jpg}
+\caption{Detalhes use case Remover utilizador}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_editautilizador.jpg}
+\caption{Detalhes use case Editar utilizador}
+\end{figure}
+
+
+\clearpage 
+\newpage
+\subsection{Sub-sistema Gestão de produtos}
+No diagrama use case deste sub-sistema estão representadas acções como editar, remover e consultar produtos. Estas acções dizem respito à gestão de produtos, que só podem ser efectuadas pelo administrador.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images2/gestaoprodutos.jpg}
+\caption{Diagrama Use Case sub-sistema Gerir produtos}
+\end{figure}
+
+De seguida, encontram-se as especificações textuais dos use cases do diagrama deste sub-sistema:\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_removeproduto.jpg}
+\caption{Detalhes use case Remover produto}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_editaproduto.jpg}
+\caption{Detalhes use case Editar produto}
+\end{figure}
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_consultaprodutos.jpg}
+\caption{Detalhes use case Consultar produtos}
+\end{figure}
+
+
+\clearpage 
+\newpage
+
+\subsection{Sub-sistema Gestão de mensagens do admininstrador}
+No diagrama de use case deste sub-sistema estão representadas todas as acções relativas à gestão de mensagens. É permitido ao administrador escrever novas mensagens, incluindo alertar o utilizador, apagar mensagens e consultar a sua respectiva caixa de mensagens.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images2/gestaoMensagens.jpg}
+\caption{Diagrama Use Case sub-sistema Gerir mensagens do administrador}
+\end{figure}
+
+De seguida, encontram-se as especificações textuais dos use cases do diagrama deste sub-sistema:\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_consultarMensagem.jpg}
+\caption{Detalhes use case Consultar mensagens}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_novaMensagem.jpg}
+\caption{Detalhes use case Nova mensagem}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_apagarMensagem.jpg}
+\caption{Detalhes use case Apagar mensagem}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_alertarutilizador}
+\caption{Detalhes use case Alertar Utilizador}
+\end{figure}
+
+
+\clearpage 
+\newpage
+\subsection{Sub-sistema Gestão de categorias}
+O diagrama use case deste sistema apresenta mais acções que o administrador do sistema pode tomar. Estas acções estão relacionadas com a gestão de categorias do sistema. Aqui, o utilizador pode criar novas categorias, modifcar, remover e consultar a lista de categorias do sistema.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images2/gestaocategorias.jpg}
+\caption{Diagrama Use Case sub-sistema Gerir categorias}
+\end{figure}
+
+De seguida, encontram-se as especificações textuais dos use cases do diagrama deste sub-sistema:\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_criacategoria.jpg}
+\caption{Detalhes use case Criar cateoria}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_editacategoria.jpg}
+\caption{Detalhes use case Modificar categoria}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_removecategoria.jpg}
+\caption{Detalhes use case Remover categoria}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_consultarcategoria.jpg}
+\caption{Detalhes use case Consultar categorias}
+\end{figure}
+
+
+\clearpage 
+\newpage
+
+
+\subsection{Sub-sistema Gestão de newsletters}
+No diagrama use case deste sub-sistema estão representadas acções como editar, remover, consultar e lançar novas newsletters. Estas acções dizem respito à gestão de newsletters, que só podem ser efectuadas pelo administrador.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images2/gestaonewsletters.jpg}
+\caption{Diagrama Use Case sub-sistema Gerir newsletters}
+\end{figure}
+
+De seguida, encontram-se as especificações textuais dos use cases do diagrama deste sub-sistema:\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_novanewsletter.jpg}
+\caption{Detalhes use case Lançar nova mewsletter}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_removenewsletter.jpg}
+\caption{Detalhes use case Remover newsletter}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_editanewsletter.jpg}
+\caption{Detalhes use case Editar newsletter}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_consultanewsletter.jpg}
+\caption{Detalhes use case Consultar newsletters}
+\end{figure}
+
+
+\clearpage 
+\newpage
+
+
+\subsection{Sub-sistema Estatísticas do sistema}
+Relativamente às estatísticas do sistema, estas são geradas pelo próprio sistema, podendo apenas ser consultadas pelo administrador.\\
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images2/gestaoestatisticas.jpg}
+\caption{Diagrama Use Case sub-sistema Consultar estatísticas}
+\end{figure}
+
+De seguida, encontra-se a especificação textual do único use case do diagrama deste sub-sistema:\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_consultarestatisticas.jpg}
+\caption{Detalhes use case Consultar estatísticas}
+\end{figure}
+
+\clearpage 
+\newpage
+
+
+\subsection{Sub-sistema Gestão de restrições}
+É neste sub-sistema que os administradores podem controlar as restrições do sistema. O adiministrador é capaz de criar novas restrições, remover, editar e apagar determinadas restrições. Também épossível consultar, a qualquer momento, a lista de restrições actualizada.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images2/gestaorestricoes.jpg}
+\caption{Diagrama Use Case sub-sistema Gerir restrições}
+\end{figure}
+
+De seguida, encontram-se as especificações textuais dos use cases do diagrama deste sub-sistema:\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_adicionarestricao.jpg}
+\caption{Detalhes use case Adicionar nova restrição}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_consultarestricoes.jpg}
+\caption{Detalhes use case Consultar lista de restrições}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_removeestricoes.jpg}
+\caption{Detalhes use case Remover restrição}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_editarestricoes.jpg}
+\caption{Detalhes use case Editar restrição}
+\end{figure}
+
+
+\clearpage 
+\newpage
+
+
+\subsection{Sub-sistema Gestão de registos}
+É neste sub-sistema que os administradores podem controlar os registos do sistema. O adiministrador é o responsável por consultar a respectiva lista de registos. \\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images2/gestaoregistos.jpg}
+\caption{Diagrama Use Case sub-sistema Gerir restrições}
+\end{figure}
+
+De seguida, encontram-se as especificações textuais dos use cases do diagrama deste sub-sistema:\\
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{images/def_consultarregisto.jpg}
+\caption{Detalhes use case Consultar registos}
+\end{figure}
+
+\clearpage
+\newpage
+
+\section{Diagramas de sequência}
+A utilização de diagramas de sequência permite representar a sequência de interacções, ou seja, as mensagens passadas entre objectos, num determinado sistema. É descrito o comportamento ao longo do tempo de um único caso de uso, onde é dada ênfase à ordenação temporal dos pedidos e respostas desenvolvidas nas interações dos objectos num dado cenário. Os diagramas de sequência com sub-sistemas foram baseados segundo o planeamento da segunda etapa, enquanto que os outros foram baseados segundo o planeamento da primeira etapa. Tendo isto em conta, \\
+
+
+Os diagramas de sequência seguintes fazem referência à capacidade de um utilizador poder aceder à área acerca disponibilizada.\\ 
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/AcedeAcerca.jpg}
+\caption{Diagrama de sequência Acede acerca}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images2/acedeacerca.jpg}
+\caption{Diagrama de sequência Acede acerca com sub-sistemas}
+\end{figure}
+
+\clearpage
+\newpage
+
+Os diagramas de sequência seguintes referem-se à capacidade do utilizador em aceder à área da ajuda.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/AcedeAjuda.jpg}
+\caption{Diagrama de sequência Acede ajuda}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images2/acedeajuda.jpg}
+\caption{Diagrama de sequência Acede Ajuda com sub-sistemas}
+\end{figure}
+
+
+\clearpage
+\newpage
+
+Os diagramas seguintes descrevem a funcionalidade de actualizar as definições pessoais por parte de um utilizador.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/Actualizardefinicoespessoais1.jpg}
+\caption{Diagrama de sequência Actualizar definições pessoais}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{images2/actdefpessoais.jpg}
+\caption{Diagrama de sequência Actualizar definições pessoais com sub-sistemas}
+\end{figure}
+
+\newpage
+Os diagramas de sequência seguintes descrevem o processo de adição de um produto à lista de produtos desejados por parte de um utilizador.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/AdicionarProdutoDesejado.jpg}
+\caption{Diagrama de sequência Adicionar Produto Desejado}
+\end{figure}
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images2/addproddesejado.jpg}
+\caption{Diagrama de sequência Adicionar Produto Desejado com sub-sistemas}
+\end{figure}
+
+\clearpage
+\newpage
+
+Os diagramas seguintes descrevem o processo de remoção de uma mensagem por parte de um utilizador.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/ApagarMensagem.jpg}
+\caption{Diagrama de sequência Apagar Mensagem}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images2/apagarmensagem.jpg}
+\caption{Diagrama de sequência Apagar Mensagem com sub-sistemas}
+\end{figure}
+
+
+
+\clearpage
+\newpage
+
+Os diagramas de sequência seguintes fazem referência ao processo de classificação de um comprador.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/ClassificarComprador.jpg}
+\caption{Diagrama de sequência Classificar Comprador}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images2/Classificarcomprador.jpg}
+\caption{Diagrama de sequência Classificar Comprador com sub-sistemas}
+\end{figure}
+
+\newpage
+Os diagramas de sequência seguintes fazem referência ao processo de classificação de um vendedor.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/ClassificarVendedor.jpg}
+\caption{Diagrama de sequência Classificar Vendedor}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images2/Classificarvendedor.jpg}
+\caption{Diagrama de sequência Classificar Vendedor com sub-sistemas}
+\end{figure}
+
+\clearpage
+\newpage
+
+Os diagramas seguintes descrevem a funcionalidade de colocar um produto à venda.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/Colocarprodutovenda.jpg}
+\caption{Diagrama de sequência Colocar produto à venda}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{images2/Colocarprodutoavenda.jpg}
+\caption{Diagrama de sequência Colocar produto à venda com sub-sistemas}
+\end{figure}
+
+\newpage
+Os diagramas seguintes descrevem o processo de consultar o carrinho de compras de um utilizador.		\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/ConsultarCarrinho.jpg}
+\caption{Diagrama de sequência Consultar Carrinho}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{images2/Consultarcarrinho.jpg}
+\caption{Diagrama de sequência Consultar Carrinho com sub-sistemas}
+\end{figure}
+
+\clearpage
+\newpage
+
+Os diagramas que se seguem descrevem a funcionalidade de consultar a caixa de mensagens.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/ConsultarMensagens.jpg}
+\caption{Diagrama de sequência Consultar Mensagens}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{images2/Consultarmensagens.jpg}
+\caption{Diagrama de sequência Consultar Mensagens com sub-sistemas}
+\end{figure}
+
+Os diagramas seguintes descrevem o processo de consultar a montra de produtos de um utilizador.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/ConsultarMontra.jpg}
+\caption{Diagrama de sequência Consultar Montra}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{images2/Consultarmontra.jpg}
+\caption{Diagrama de sequência Consultar Montra com sub-sistemas}
+\end{figure}
+
+\clearpage
+\newpage
+
+Os diagramas seguintes descrevem a funcionalidade de consultar um perfil de um utilizador.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/ConsultarPerfildeUtilizador.jpg}
+\caption{Diagrama de sequência Consultar Perfil de Utilizador}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{images2/Consultarperfilutilizador.jpg}
+\caption{Diagrama de sequência Consultar Perfil de Utilizador com sub-sistemas}
+\end{figure}
+
+Os diagramas seguintes referem-se à funcionalidade de consultar os produtos desejados.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/ConsultarProdutosDesejados.jpg}
+\caption{Diagrama de sequência Consultar Produtos Desejados}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{images2/Consultarproddesejados.jpg}
+\caption{Diagrama de sequência Consultar Produtos Desejados com sub-sistemas}
+\end{figure}
+
+\clearpage
+\newpage
+
+Os diagramas seguintes referem-se à funcionalidade de consultar a lista de propostas.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/ConsultarPropostas.jpg}
+\caption{Diagrama de sequência Consultar Propostas}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images2/Consultarpropostas.jpg}
+\caption{Diagrama de sequência Consultar Propostas com sub-sistemas}
+\end{figure}
+
+\clearpage
+\newpage
+
+
+Os diagramas seguintes referem-se à funcionalidade de consultar a lista de diferentes produtos (novos produtos, produtos que interessam aos utilizadores,...).\\
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/Consultarlistadeprodutos1.jpg}
+\caption{Diagrama de sequência Consultar lista de produtos}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{images2/Consultarlistanovosprod.jpg}
+\caption{Diagrama de sequência Consultar lista de produtos com sub-sistemas}
+\end{figure}
+
+
+\clearpage
+\newpage
+
+Os diagramas seguintes referem-se à funcionalidade de consultar os produtos seguidos.\\
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/Consultarprodutosseguidos.jpg}
+\caption{Diagrama de sequência Consultar produtos seguidos}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{images2/Consultarprodseguidos.jpg}
+\caption{Diagrama de sequência Consultar produtos seguidos com sub-sistemas}
+\end{figure}
+
+\clearpage
+\newpage
+
+Os diagramas seguintes referem-se à funcionalidade de começar a seguir um produto.\\
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/SeguirProduto.jpg}
+\caption{Diagrama de sequência Seguir produto}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images2/seguirproduto.jpg}
+\caption{Diagrama de sequência Seguir produto com sub-sistemas}
+\end{figure}
+
+\newpage
+Os diagramas seguintes referem-se à funcionalidade de retirar um produto da montra de produtos.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/Deixardevenderproduto.jpg}
+\caption{Diagrama de sequência Deixar de vender produto}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images2/Deixarvenderproduto.jpg}
+\caption{Diagrama de sequência Deixar de vender produto com sub-sistemas}
+\end{figure}
+
+\clearpage
+\newpage
+
+
+Os diagramas seguintes referem-se à funcionalidade de efectuar login no sistema.\\
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/EfectuarLogin.jpg}
+\caption{Diagrama de sequência Efectuar Login}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images2/Efectuarlogin.jpg}
+\caption{Diagrama de sequência Efectuar Login com sub-sistemas}
+\end{figure}
+
+\newpage
+Os diagramas seguintes referem-se à funcionalidade de efectuar logout no sistema.\\
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/EfectuarLogout.jpg}
+\caption{Diagrama de sequência Efectuar Logout}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images2/Efectuarlogout.jpg}
+\caption{Diagrama de sequência Efectuar Logout com sub-sistemas}
+\end{figure}
+
+\clearpage
+\newpage
+
+
+Os diagramas seguintes referem-se à funcionalidade de efectuar pagamento por parte do utilizador.\\
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/EfectuarPagamento.jpg}
+\caption{Diagrama de sequência Efectuar Pagamento}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images2/Efectuarpagamento.jpg}
+\caption{Diagrama de sequência Efectuar Pagamento com sub-sistemas}
+\end{figure}
+
+\newpage
+Os diagramas seguintes referem-se à funcionalidade de efectuar uma nova proposta.\\
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.4]{images/EfectuarProposta.jpg}
+\caption{Diagrama de sequência Efectuar Proposta}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images2/Efectuarproposta.jpg}
+\caption{Diagrama de sequência Efectuar Proposta com sub-sistemas}
+\end{figure}
+
+\clearpage
+\newpage
+
+
+Os diagramas seguintes referem-se à funcionalidade de efectuar registo no sistema.\\
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/EfectuarRegisto.jpg}
+\caption{Diagrama de sequência Efectuar Registo}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images2/Efectuarregisto.jpg}
+\caption{Diagrama de sequência Efectuar Registo com sub-sistemas}
+\end{figure}
+\clearpage
+\newpage
+
+
+Os diagramas seguintes referem-se à funcionalidade de criar uma nova mensagem.\\
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/NovaMensagem.jpg}
+\caption{Diagrama de sequência Nova Mensagem}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{images2/Novamensagem.jpg}
+\caption{Diagrama de sequência Nova Mensagem com sub-sistemas}
+\end{figure}
+
+\newpage
+Os diagramas seguintes referem-se à funcionalidade de remover um produto desejado.\\
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/RemoverProdutoDesejado.jpg}
+\caption{Diagrama de sequência Remover Produto Desejado}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images2/Removerproddesejado.jpg}
+\caption{Diagrama de sequência Remover Produto Desejado com sub-sistemas}
+\end{figure}
+
+\clearpage
+\newpage
+
+
+Os diagramas seguintes referem-se à funcionalidade de remover um produto do carrinho de compras.\\
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/Removerprodutodocarrinho.jpg}
+\caption{Diagrama de sequência Remover produto do carrinho}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images2/Removerprodcarrinho.jpg}
+\caption{Diagrama de sequência Remover produto do carrinho com sub-sistemas}
+\end{figure}
+
+\newpage
+Os diagramas seguintes referem-se à funcionalidade de reportar uma compra por parte do utilizador.\\
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/ReportarCompra.jpg}
+\caption{Diagrama de sequência Reportar Compra}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images2/Reportarcompra.jpg}
+\caption{Diagrama de sequência Reportar Compra com sub-sistemas}
+\end{figure}
+
+\clearpage
+\newpage
+
+
+Os diagramas seguintes referem-se à funcionalidade de reportar uma venda.\\
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/Reportarvenda.jpg}
+\caption{Diagrama de sequência Reportar venda}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images2/Reportarvenda.jpg}
+\caption{Diagrama de sequência Reportar venda com sub-sistemas}
+\end{figure}
+
+Os diagramas seguintes refere-se à funcionalidade de deixar de seguir um produto.\\
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images/Deixardeseguirproduto.jpg}
+\caption{Diagrama de sequência Deixar de Seguir Produto}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images2/Deixarseguirproduto.jpg}
+\caption{Diagrama de sequência Deixar de Seguir Produto com sub-sistemas}
+\end{figure}
+
+\clearpage
+\newpage
+
+
+\section{Diagramas de estado}
+Os diagramas de estado permitem demonstrar o comportamente de determinados objectos dado um evento. Torna-se assim possível descrever o ciclo de comportamentos pelos quais um objecto passa e as suas transições de estado durante esse evento. Seguem de seguida dois exemplos relativos a este sistema.\\
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{images2/est_login}
+\caption{Diagrama de estado Efectuar login}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.55]{images2/est_efectuarregisto}
+\caption{Diagrama de estado Efectuar registo}
+\end{figure}
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.55]{images2/est_addprod}
+\caption{Diagrama de estado Adicionar produto à lista de produtos desejados}
+\end{figure}
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{images2/est_colocarvenda}
+\caption{Diagrama de estado Colocar produto à venda}
+\end{figure}
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.55]{images2/est_novamensagem}
+\caption{Diagrama de estado Nova mensagem}
+\end{figure}
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.55]{images2/est_efectuarpagamento}
+\caption{Diagrama de estado Efectuar pagamento}
+\end{figure}
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{images2/est_deixarvender}
+\caption{Diagrama de estado Remover produto da montra}
+\end{figure}
+
+\clearpage
+\newpage
+
+\section{Diagramas de actividade}
+Os diagramas de actividade representam o fluxo das informações dentro de um objeto do sistema, podendo representar as condições e as execuções paralelas. Deste modo, os diagramas de actividade ajudam a compreender
+quais as entidades que actuam no decorrer de uma determinada actividade, e que acções são, por elas, executadas. Seguem de seguida alguns exemplos relativos a este sistema.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.4]{images2/act_login}
+\caption{Diagrama de actividade Efectuar login}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.4]{images2/act_registo}
+\caption{Diagrama de actividade Efectuar registo}
+\end{figure}
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{images2/act_addprod}
+\caption{Diagrama de actividade Adicionar produto à lista de produtos desejados}
+\end{figure}
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.4]{images2/act_colocarvenda}
+\caption{Diagrama de actividade Colocar produto à venda}
+\end{figure}
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.4]{images2/act_novamensagem}
+\caption{Diagrama de actividade Nova mensagem}
+\end{figure}
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{images2/act_pagamento}
+\caption{Diagrama de actividade Efectuar pagamento}
+\end{figure}
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{images2/act_deixarvender}
+\caption{Diagrama de actividade Remover produto da montra}
+\end{figure}
+
+\clearpage
+\newpage
+
+\section{Diagrama de classes}
+O diagrama de classes representa a estrutura do sistema, recorrendo ao conceito de classes e suas relações, onde são identificados os objectos relevantes do sistema em estudo. Os objectos do sistemas possuem comportamento e identidade, que consistem, respectivamente, ao modo como ele age e reage a estímulos externos e aos atributos que o distingue de todos os outros. 
+Deste modo, a seguir é apresentado o diagrama de classes do sistema onde são representadfos todos os \textit{packages} do sistema EyeBuy e respectivas classes, bem como os seus métodods e atributos.
+Como o diagrama de classes ocupa demasiado espaço, foi divido nas duas páginas, onde o package DAO faz \textit{import} do package Model.
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{images2/diagramaclasses}
+\caption{Diagrama de classes}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{images2/diagramaclasses1}
+\caption{Diagrama de classes}
+\end{figure}
+
+\clearpage
+\newpage
+
+\section{Interface}
+
+\subsection{Login}
+Na página login do sistema, é onde acontece a primeira familiarização do utilizador com o sistema. Esta página permite ao utilizador entrar no sistrema, após inserir os dados necessários para tal. Aqui, também é possível aos utilizadores não registados no sistema fazer o seu próprio registo. 
+Caso algum utilizador precise de ajuda para alguma situação, é possível obtê-la apenas clicando no botão \textit{Ajuda}, ou caso necessite de alguma informação sobre o sistema basta clicar no botão textit{Sobre o EyeBuy}. Existe também, nesta página, um vídeo promotivo ao sistema (https://dl.dropbox.com/u/13351850/0001.mpg).  
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{interface/login}
+\caption{Página de login para um utilizador}
+\end{figure}
+
+\clearpage
+\newpage
+\subsection{Página inicial}
+Na página home do sistema são apresentadas várias listas de produtos, nomeademaente, lista de novos produtos, de produtos que podem interessar ao utilizador, de produtos dos melhores vendedores, de produtos desejados e seguidos.
+A existência de várias listas permite ao utilizador uma pesquisa mais eficiente e facilitada. Relativamente aos produtos, cada produto é representado pelo seu nome, preço e por uma imagem. Foi optado por colocar uma imagem junto ao produto ao invés de apenas listar os produtos com nome e preço, pois assim torna o produto mais cativante, aumentando o interesse do utilizador pelo mesmo. Enquanto que o uso de listas com apenas nome e preço ia tornar o programa chato e os produtos menos atractivos.\\
+Como não poderia deixar de ser, e estando na página principal do sistema, é possível pesquisar produtos através do nome, categoria e localidade ou optar pela pesquisa avançada. De notar, que é possível pesquisar diferentes produtos em todas as páginas do sistema, facilitando assim a procura e a navegação no sistema.\\
+A partir desta página é possível ir para outras páginas, como o perfil de utilizador, página de vendas, histórico, carrinho de compras, etc.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{interface/home}
+\caption{Página inicial do sistema}
+\end{figure}
+
+\subsection{Pesquisar um produto}
+Após o utilizador escolher o nome do produto que quer pesquisar e escolher a sua categoria e localidade, é apresentada uma página com uma lista de produtos relacionados com a preferência anteriormente imposta pelo utilizador. Nesta página também é apresentado um sub-menu de pesquisa, onde o utilizador pode procurar produtos por categoria, sub-categoria, estado, localidade e preço. Este novo sub-menu proporciona ao utilizador uma pesquisa muito mais facilitada e eficiente.
+A partir desta página é possível ir para outras páginas, como o perfil de utilizador, página de vendas, histórico, carrinho de compras, etc.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{interface/pesquisarprod}
+\caption{Página pesquisar produto}
+\end{figure}
+
+\subsection{Pesquisa avançada}
+Após seleccionar pesquisa avançada, o utilizador pode procurar um produto através do seu nome, categoria, subcategoria, localidade, estado, método de pagamento, método de venda, quantidade, número de imagens, nome do vendedor, cassificação do vendedor, e o preço. Esta pesquisa fornece ao utilizador uma lista de produtos com as características descritas pelo utilizador. 
+A partir desta página é possível ir para outras páginas, como o perfil de utilizador, página de vendas, histórico, carrinho de compras, etc.
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{interface/pesquisaavancada}
+\caption{Página pesquisa avançada}
+\end{figure}
+
+\newpage
+\subsection{Ver produto}
+Relativamente aos produtos, cada página de um dado produto apresenta todas as informações deste, como o seu preço, o seu estado, uma pequena descrição, a categoria e subcategoria a que pertencem, a data de colocação à venda e o seu respectivo vendedor. É possível ver o perfil de utilizador do vendedor do produto, clicando apenas no nome deste, tornando assim mais fácil a comunicação entre os utilizadores, no  caso de haver interesse por parte de algum.\\
+Para o total interesse do utilizador, também é apresentada uma lista de produtos relacionados e outra lista de sugestões para troca. A partir desta página é possível pesquisar produtos e ir para outras páginas, como o perfil de utilizador, página de vendas, histórico, carrinho de compras, etc.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{interface/verproduto}
+\caption{Página de um dado produto}
+\end{figure}
+
+\newpage
+\subsection{Ver produto em leilão}
+Relativamente à página relacionada com os produtos que estão em leilão, esta apresenta o mesmo aspecto que a página \textit{Ver produto}, excepto em algumas situações. Como o produto está a ser leiloado, é possível os utilizadres efectuarem uma \textit{bid} superior à actual, que pode ser visualizada nesta página. Está disponível também a lista das últimas propostas e uma lista de produtos relacionados.
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{interface/verprodutoleilao}
+\caption{Página de uma dado produto em leilão}
+\end{figure}
+
+\subsection{Ver perfil de um utilizador}
+Nesta página é possível visualizar todas as informaçãos de um dado utilizador, nomeadamente, o seu nome, morada, localidade, e-mail, número de telemóvel e outras informações. É também apresentado aos utilizadores a montra de produdos ao utilizador em causa e o seu respectivo histórico. Caso o utilizador tenha venddido ou comprado algum produto é possível aos utilizadores intervenientes nesta venda ou compra, avaliar o utilizador. Só é possível uma avaliação por cada produto vendido/comprado. Deste modo, o utilizador em causa possui uma avaliação como vendedor e comprador, o número total de avaliaçoes de ambos e o número total de compras e vendas.\\
+A partir desta página é possível pesquisar produtos e ir para outras páginas, como o perfil de utilizador, página de vendas, histórico, carrinho de compras, etc.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{interface/verperfil}
+\caption{Página de um perfil de uma dado urilizador}
+\end{figure}
+
+\subsection{Perfil de um utilizador}
+Nesta página é possível visualizar o perfil do utilizador que iniciou sessão no sistema. É possível visulaizar o seu nome, morada, localidade, e-mail, número de telemóvel e outras informações. É também apresentado ao utilizador o seu histórico e a sua lista de trocas. É nesta página que o utilizador pode consultar as suas mensagens, tanto recebidas como enviadas, remover e adicionar mensagens e também editar as suas defginições pessoais.
+A partir desta página é possível perquisar produtos e ir para outras páginas, como o perfil de utilizador, página de vendas, histórico, carrinho de compras, etc. 
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{interface/perfilutilizador}
+\caption{Página de perfil do utilizador}
+\end{figure}
+
+\subsection{Editar perfil de utilizador}
+Na página editar perfil, o utilizador pode alterar todas as suas definições pessoais. Se estas alterações foram válidas, o perfil é actualizado com sucesso, caso contrário é apresentada uma mensagem de erro.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{interface/editarperfil}
+\caption{Página editar perfil do utilizador}
+\end{figure}
+
+\subsection{Criar nova mensagem}
+É nesta página onde o utilizador pode criar uma mensagem, após o clique no botão adicionar mensagem na página do perfil do utilizador. Após o utilizador inserir os dados da mensagem, caso os dados sejam válidos, a mensagem é enviada, caso não sejam é apresentada uma mensagem de erro. No campo tipo de mensagem, no caso de o utilizador escolher \textit{Mensagem Administrador} é automaticamente escrito no campo destinatário \textit{EyeBuy}.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{interface/novamensagem}
+\caption{Página criar nova mensagem}
+\end{figure}
+
+\subsection{Consultar uma mensagem}
+Nesta página o utilizador pode consultar uma mensagem, tanto recebida como enviada. Após duplo clique sobre a mensagem (ou clique no botão \textit{ir para}) é possível visualizar a mensagem, nomeadamente, o corpo da mensagem, o destinatário e ainda uma lista de últimas mensagens recebidas. 
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{interface/novamensagem}
+\caption{Página consultar mensagem}
+\end{figure}
+
+\newpage
+\subsection{Página de vendas}
+Na página de vendas é apresentada a montra de produtos do utilizador, onde são listados todos os produtos que o utilizador tem à venda. O utilizador pode adicionar um novo produto à montra como também pode remover e editar os seus produtos. Nesta página também é apresentada uma lista de produtos relacionados e uma lista de últimas vendas, permitindo ao utilizador estar sempre actualizado das suas vendas. 
+A partir desta página é possível pesquisar produtos e ir para outras páginas, como o perfil de utilizador, página de vendas, histórico, carrinho de compras, etc. 
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{interface/montra}
+\caption{Página da montra de produtos do utilizador}
+\end{figure}
+
+\newpage
+\subsection{Consultar carrinho de compras}
+Nesta página é apresentada uma lista de todos os produtos que o utilizador adicionou ao carrinho de compras. Os produtos do carrinho são separados pelos dois métodos de pagamento, nomeadamente, \textit{MBNet} e \textit{PayPal}. Deste modo, nesta página, são apresentadas três listas: a lista que contêm todos os produtos do carrinho e as outras duas listas comtêm os produtos por método de pagamento. Esta implementação facilita o utilizador, de maneira que é mais fácil efectuar o pagamento dos produtos.\\
+Em todas as listas é apresentado o montante total, ou seja, a soma dos preços de todos os produtos pertencentes à respectiva lista. É possível também remover um produto do carrinho ou, de uma forma mais geral, esvaziar o carrinho, ou seja, eliminar de uma só vez todos os produtos do carrinho.
+A partir desta página é possível pesquisar produtos e ir para outras páginas, como o perfil de utilizador, página de vendas, histórico, carrinho de compras, etc. 
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{interface/carrinho}
+\caption{Página do carrinho de compras do utilizador}
+\end{figure}
+
+\newpage
+\subsection{Histórico}
+Relativamente ao histórico de um dado utilizador, este apresenta todas as compras e vendas efectuadas pelo utilizador. O histórico também está dividido em duas listas, a lista de vendas e a lista de compras. O histórico de vendas apresenta todos os produtos que o utilizador vendeu e o total gasto. O histórico de compras funciona da mesma forma. 
+A partir desta página é possível pesquisar produtos e ir para outras páginas, como o perfil de utilizador, página de vendas, histórico, carrinho de compras, etc. 
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{interface/historico}
+\caption{Página do histórico do utilizador}
+\end{figure}
+
+\newpage
+\subsection{Sugestão de troca}
+As sugestões de troca são apresentadas quando o utilzador visualiza um produto. Nesta lista de sugestões de troca são apresentados os produtos que o utilizador tem à venda. Após clicar num produto dessa lista, é apresentado a página de sugestão de troca. Nesta página são apresentados os dos produtos, um produto que o utilizador tem à venda e o produto que o utilizador está a visualizar. Sobre os produtos são apresentadas algumas características, como o estado, o preço, o vendedor e uma imagem. 
+Deste modo, é proporcionado ao utilizador fazer uma proposta em troca do produto seleccionado. Após isto, o outro utilizador recebe a proposta e decide aceitar ou não.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{interface/sugestoestroca}
+\caption{Página de sugestão de troca}
+\end{figure}
+
+\newpage
+\subsection{Proposta de troca}
+A lista de propostas de troca são apresentadas quando o utilizador visita o seu perfil do utilizador. Nesta lista são apresentadas todas as propostas relativas aos produtos do utilizador. No entanto, o utilizador pode aceitar ou rejeitar a proposta.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{interface/propostatroca}
+\caption{Página proposta de troca}
+\end{figure}
+
+\subsection{Ajuda}
+Em qualquer momento o utilizador pode obter ajuda. Aqui são dados alguns conselhos utilizador, informações e os contactos do sistema.  
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{interface/ajuda}
+\caption{Página de ajuda do sistema}
+\end{figure}
+
+\subsection{Sobre o EyeBuy}
+Em qualquer momento o utilizador pode aceder às informações do sistema clicando no botao \textit{Sobre o EyeBuy}.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{interface/sobrenos}
+\caption{Página de informação sobre o sistema}
+\end{figure}
+
+\newpage
+\subsection{Mensagem de erro/aviso}
+Quando o utilizador pretende remover algum produto de uma dada lista de produtos é apresentada uma mensagem de aviso, assim como quando o utilizador pretende sair do sistema, quando insere dados inválidos, entre outras.
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{interface/aviso}
+\caption{Mensagem de aviso}
+\end{figure}
+
+\clearpage
+\newpage
+\section{Conclusão}
+Após a análise e modelação do sistema descrito no enunciado tornou-se possível fazer uma descrição suficientemente pormenorizada do sistema a ser implementado. Não obstante, o sistema modelado possui uma complexidade de implementação digna de nota e tendo isso em conta tornou-se necessário criar três estágios de funcionalidades a serem implementadas por nível de importância para o funcionamento do sistema. Primeiramente torna-se imperativo implementar funcionalidades básicas como a criacão de produtos para venda no sistema, assim como tornar possível as transacções entre compradores e vendedores nas diversas formas (venda directa e leilão), mensagens entre utilizadores e para a administração, pesquisa de produtos, manutenção de páginas de perfil entre outras funcionalidades menores. Numa segunda fase surgem funcionalidades como possibilidade de criação e manutenção de listas de produtos seguidos e desejados, assim como possibilitar a utilização do carrinho de compras e criação de montras no perfil dos vendedores. Por fim, surgem algumas funcionalidades mais avançadas que tornam possível o sistema sugerir trocas entre utilizadores assim como produtos recomendados, avaliação de utilizadores através de feedbacks entre utilizadores após transacção e possibilidade de reportar problemas relativos a produtos ou transacções à administração do sistema. Tornou-se bastante  óbvio que o recurso a UML, nomeadamente modelos de domínio, diagramas de caso de uso e os respectivos detalhes, assim como os diagramas de sequência e estado tornam o processo de modelação bastante mais organizado e possibilitam uma descrição pormenorizada e concisa do sistema a ser criado e numa fase mais avançada a ser implementado a partir dos diagramas para o mundo digital. No que concerne às interfaces criadas, recorreu-se ao software Balsamiq mockups que permite esboçar interfaces elegantes de forma simples e intuitiva, o que está à vista no resultado final que são os desenhos da interface para este sistema.
+Após a análise de requisitos e modelação completa do sistema, quando a atenção se virou para a implementação da aplicação na linguagem Java o trabalho de modelação fez-se notar pois toda a metodologia de implementação e funcionalidades assim comos os próprios objectivos a atingir na aplicação já estavam promenorizadamente detalhados e traçados o que tornou todo o processo muito mais organizado e simples.
+Com o foco apenas na implementação da aplicação foi possível ir progredindo de forma rápida e concisa através de todos os três estágios de implementação definidos e assim completá-los com sucesso. De forma geral os objectivos traçados pelo grupo foram concluídos com sucesso.
+Todas as funcionalidades requeridas no enunciado foram implementadas sendo que de acordo com a nossa modelação conseguimos acrescentar diversas funcionalidades adicionais que permitiram fazer com que este projecto crescesse e ganhasse assim contornos que se podem equiparar a sistemas que são utilizados no mercado real. 
+Na perspectiva de utilização da aplicação é possível dizer que esta foi desenvolvida tendo em consideração a experiência do utilizador garantido assim uma usabilidade intuitiva e agradável onde foi utilizada a ferramenta Swing para a construção das interfaces de interacção com o utilizador. À medida que fomos desenhando as interfaces foram surgindo bastantes ideias anteriormente descritas que possibilitaram assim como resultado final uma melhor iteração com o utilizador.
+Apesar deste projecto ter sido concluído aos olhos do grupo com sucesso, houveram algumas situações que requereram um maior esforço para serem ultrapassadas, nomeadamente a implementação do sistema de leilões e de trocas que envolvem uma complexidade um pouco acrescida e onde foi despendido mais tempo para se chegar a uma conclusão sobre o modo de funcionamento dos mesmos.
+O balanço final é bastante positivo pois todos os objectivos foram cumpridos e o trabalho em grupo foi bastante agradável e cooperativo tornado o processo de desenvolvimento bastante fácil devido ao bom sentido crítico de todos os elementos do grupo.
+Este programa no geral serviu para melhorarmos a nossa capacidade de utilização das linguagens de programação orientadas a objectos, neste caso Java, linguagens de modelação (UML), ferramentas de criação de interfaces (WindowBuilder do Eclipse), sistemas de controlo de versões (Git) estando o projecto disponível no GitHub.com (Utilização do sistema de controlo de versões foi muito importante no desenvolvimento da aplicação para a coordenação entre os elementos do grupo).
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
